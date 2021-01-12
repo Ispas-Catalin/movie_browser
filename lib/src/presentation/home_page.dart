@@ -21,13 +21,10 @@ class HomePage extends StatelessWidget {
                   OrderByContainer(
                     builder: (BuildContext context, String orderBy) {
                       return IconButton(
-                        icon: Icon(orderBy == 'desc'
-                            ? Icons.keyboard_arrow_down
-                            : Icons.keyboard_arrow_up),
+                        icon: Icon(orderBy == 'desc' ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up),
                         onPressed: () {
                           StoreProvider.of<AppState>(context) //
-                            ..dispatch(UpdateOrderBy(
-                                orderBy == 'desc' ? 'asc' : 'desc'))
+                            ..dispatch(UpdateOrderBy(orderBy == 'desc' ? 'asc' : 'desc'))
                             ..dispatch(const GetMovies());
                         },
                       );
@@ -46,8 +43,7 @@ class HomePage extends StatelessWidget {
                             ..dispatch(const GetMovies());
                         },
                         value: quality,
-                        items: <String>['720p', '1080p', '2160p', '3D']
-                            .map((String quality) {
+                        items: <String>['720p', '1080p', '2160p', '3D'].map((String quality) {
                           return DropdownMenuItem<String>(
                             value: quality,
                             child: Text(quality),
@@ -110,39 +106,31 @@ class HomePage extends StatelessWidget {
                         }
 
                         return MoviesContainer(
-                          builder:
-                              (BuildContext context, BuiltList<Movie> movies) {
+                          builder: (BuildContext context, BuiltList<Movie> movies) {
                             return Column(
                               children: <Widget>[
                                 Expanded(
                                   child: GridView.builder(
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                       mainAxisSpacing: 4.0,
                                       crossAxisSpacing: 4.0,
                                       crossAxisCount: 3,
                                     ),
                                     itemCount: movies.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
+                                    itemBuilder: (BuildContext context, int index) {
                                       final Movie movie = movies[index];
 
                                       return InkWell(
                                         onTap: () {
-                                          StoreProvider.of<AppState>(context)
-                                              .dispatch(
-                                                  SetSelectedMovie(movie.id));
+                                          StoreProvider.of<AppState>(context).dispatch(SetSelectedMovie(movie.id));
 
-                                          Navigator.pushNamed(
-                                              context, '/movieDetail');
+                                          Navigator.pushNamed(context, '/movieDetail');
                                         },
                                         child: GridTile(
-                                          child: Image.network(
-                                              movie.mediumCoverImage),
+                                          child: Image.network(movie.mediumCoverImage),
                                           footer: GridTileBar(
                                             title: Text(movie.title),
-                                            subtitle:
-                                                Text(movie.genres.join(', ')),
+                                            subtitle: Text(movie.genres.join(', ')),
                                           ),
                                         ),
                                       );
@@ -152,8 +140,7 @@ class HomePage extends StatelessWidget {
                                 FlatButton(
                                   child: const Text('Load more'),
                                   onPressed: () {
-                                    StoreProvider.of<AppState>(context)
-                                        .dispatch(const GetMovies());
+                                    StoreProvider.of<AppState>(context).dispatch(const GetMovies());
                                   },
                                 )
                               ],
